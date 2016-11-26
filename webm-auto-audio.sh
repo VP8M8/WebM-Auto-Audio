@@ -1,9 +1,18 @@
 #!/bin/bash
-# v1.0.0 2016-11-23 VP8M8
+# v1.0.1 2016-11-25 VP8M8
 # Description: Increases/decreases the audio bitrate of WebMs in steps to satisfy the target file size
 # Note: All files are handled in MiB (based on 2^10, not 10^3) and the target file size must be in MiB
 # Depenencies: ffmpeg, ffprobe, bc, sed, grep, cut
 # Usage: script.sh ["source video" or "source audio"] ["webm video"] [webm audio bitrate] [target file size]
+
+# Check for dependencies
+for depencency in ffmpeg ffprobe bc sed grep cut; do
+	if [[ $(command -v $depencency >/dev/null 2>&1) -ne 0 ]]; then
+		echo "This script requires \"$depencency\" but it's not installed."
+		echo "Install it."
+		exit 1
+	fi
+done
 
 # Displays help if first argument is -h or --help
 if [[ "$1" = "-h" || "$1" = "--help" ]]; then
